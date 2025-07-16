@@ -1,8 +1,10 @@
 {
   "manifest_version": 3,
-  "name": "Seotblock",
-  "version": "2.0",
-  "description": "El Adblock para YouTube que neutraliza anuncios a nivel de red y acelera los restantes.",
+  "name": "__MSG_appName__",
+  "description": "__MSG_appDesc__",
+  "version": "3.0",
+  "author": "ESPCDEV",
+  "default_locale": "en",
   "permissions": [
     "storage",
     "scripting",
@@ -11,25 +13,21 @@
   "host_permissions": [
     "*://*.youtube.com/*"
   ],
-  "background": {
-    "service_worker": "background.js"
-  },
-"content_scripts": [
-    {
-      "matches": ["*://*.youtube.com/*"],
-      "js": ["content.js"],
-      "css": ["styles.css"],
-      "run_at": "document_start",
-      "world": "MAIN"
-    }
-  ],
-  "declarative_net_request" : {
-    "rule_resources" : [{
+  "declarative_net_request": {
+    "rule_resources": [{
       "id": "ruleset_1",
       "enabled": true,
       "path": "rules.json"
     }]
   },
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_start"
+    }
+  ],
   "icons": {
     "48": "icon48.png",
     "128": "icon128.png"

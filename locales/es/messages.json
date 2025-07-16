@@ -1,0 +1,11 @@
+{
+  "appName": {
+    "message": "Seotblock v3"
+  },
+  "appDesc": {
+    "message": "La solución definitiva de bloqueo de anuncios para YouTube, construida con un sistema de defensa multicapa."
+  },
+  "notificationAdSkipped": {
+    "message": "Anuncio neutralizado por Seotblock."
+  }
+}
