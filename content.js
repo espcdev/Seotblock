@@ -1,60 +1,31 @@
-// El corazón de Seotblock v2.0
-// Se ejecuta constantemente para una respuesta inmediata.
-setInterval(() => {
+/*
+  Seotblock v1.2 - SponsorBlock
+  Autor: ESPCDEV
+  Misión: Interceptar y neutralizar las cargas de anuncios antes de que se procesen.
+*/
+
+// Almacenamos la función original para no romper la página.
+const original_JSON_parse = JSON.parse;
+
+// Creamos una función de intercepción. Esta es nuestra arma principal.
+function jsonInterceptor(text) {
+    const data = original_JSON_parse(text);
+
+    // Buscamos la respuesta del reproductor que contiene los anuncios.
+    // Si 'playerAds' o 'adPlacements' existen, ¡tenemos un objetivo!
+    if (data?.playerAds || data?.adPlacements) {
+        // Misión cumplida: Neutralizamos los campos de anuncios.
+        // Al eliminarlos, el reproductor de YouTube creerá que no hay anuncios que mostrar.
+        data.playerAds = null;
+        data.adPlacements = null;
+        console.log("SEOTBLOCK v1.2: ¡Carga de anuncio neutralizada a nivel de datos!");
+    }
     
-    // --- TÁCTICA 1: ACELERACIÓN Y SILENCIO ---
-    const adContainer = document.querySelector('.ad-showing');
-    const videoPlayer = document.querySelector('video.html5-main-video');
-
-    if (adContainer && videoPlayer) {
-        // Si hay un anuncio visible, ¡ataca!
-        if (!videoPlayer.muted) {
-            videoPlayer.muted = true; // Silencio inmediato
-        }
-        // Acelera el anuncio para que termine en un instante
-        videoPlayer.playbackRate = 16; 
-    }
-
-    // --- TÁCTICA 2: CLIC ULTRARRÁPIDO EN BOTONES ---
-    // Busca botones de "Saltar" modernos y antiguos.
-    const skipButtonModern = document.querySelector('.ytp-ad-skip-button-modern');
-    const skipButton = document.querySelector('.ytp-ad-skip-button');
-    const adOverlay = document.querySelector('.ytp-ad-overlay-close-button');
-
-    if (skipButtonModern) {
-        skipButtonModern.click();
-        showSkipNotification();
-    } else if (skipButton) {
-        skipButton.click();
-        showSkipNotification();
-    }
-
-    // Cierra los banners que aparecen sobre el video.
-    if (adOverlay) {
-        adOverlay.click();
-    }
-
-    // --- TÁCTICA 3: ELIMINACIÓN DE BANNERS LATERALES ---
-    // Elimina los anuncios que aparecen como videos sugeridos o en el feed.
-    const companionAd = document.querySelector('#companion, #player-ads, .ytd-ad-slot-renderer');
-    if (companionAd) {
-        companionAd.remove();
-    }
-
-}, 50); // Se ejecuta 20 veces por segundo. ¡Ultrarrápido!
-
-
-// La notificación sigue siendo la misma, ¡para que sepas que hicimos el trabajo!
-function showSkipNotification() {
-  // Evita spamear notificaciones si ya hay una
-  if (document.querySelector('.seotblock-notification')) return;
-
-  const notification = document.createElement('div');
-  notification.className = 'seotblock-notification';
-  notification.innerText = '¡Anuncio neutralizado por Seotblock!';
-  document.body.appendChild(notification);
-
-  setTimeout(() => {
-    notification.remove();
-  }, 2500);
+    return data;
 }
+
+// Sobreescribimos la función global JSON.parse con nuestra versión con trampa.
+// Cada vez que YouTube intente leer los datos de un video, pasará por nuestro filtro.
+JSON.parse = jsonInterceptor;
+
+console.log("SEOTBLOCK v1.2: Motor de intercepción activado. Esperando objetivos...");

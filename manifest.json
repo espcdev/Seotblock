@@ -14,11 +14,13 @@
   "background": {
     "service_worker": "background.js"
   },
-  "content_scripts": [
+"content_scripts": [
     {
       "matches": ["*://*.youtube.com/*"],
       "js": ["content.js"],
-      "css": ["styles.css"]
+      "css": ["styles.css"],
+      "run_at": "document_start",
+      "world": "MAIN"
     }
   ],
   "declarative_net_request" : {
