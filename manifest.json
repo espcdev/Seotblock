@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Seotblock",
+  "version": "1.0",
+  "description": "El mejor Adblock para YouTube, ultrarrápido y con notificaciones.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "*://*.youtube.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["content.js"],
+      "css": ["styles.css"]
+    }
+  ],
+  "icons": {
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
+}
